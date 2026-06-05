@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>곰방폰 | 단말기 구매 정보</title>
+  <style>
+    :root {
+      --ink: #111827;
+      --muted: #667085;
+      --line: #d8dee8;
+      --soft: #f5f7fa;
+      --panel: #fff;
+      --red: #e31b23;
+      --red-dark: #bb1118;
+      --navy: #1d2939;
+      --blue: #2f6fbd;
+      font-family: Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #fff;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .top {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .inner {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .utility {
+      display: flex;
+      justify-content: flex-end;
+      gap: 18px;
+      padding: 10px 0;
+      color: #667085;
+      font-size: 13px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: var(--red);
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .product {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 42px;
+      padding: 46px 0 32px;
+    }
+
+    .gallery {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      display: grid;
+      gap: 18px;
+    }
+
+    .visual-box {
+      display: grid;
+      place-items: center;
+      min-height: 480px;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #f1f4f8, #fff);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-image {
+      position: relative;
+      z-index: 2;
+      width: min(78%, 420px);
+      max-height: 430px;
+      object-fit: contain;
+      filter: drop-shadow(0 28px 36px rgba(17, 24, 39, .18));
+    }
+
+    .review {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: #536173;
+      line-height: 1.65;
+    }
+
+    .summary h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.24;
+      letter-spacing: 0;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #475467;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .price-box {
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      border: 2px solid #f0f2f5;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: #475467;
+      line-height: 1.55;
+    }
+
+    .price-row strong {
+      color: var(--ink);
+      font-size: 20px;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .variant-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .option {
+      display: grid;
+      align-content: center;
+      min-height: 62px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: #344054;
+      font-weight: 900;
+      cursor: pointer;
+      transition: border-color .16s ease, box-shadow .16s ease, color .16s ease;
+    }
+
+    .option span {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .option.selected {
+      border: 2px solid var(--red);
+      color: var(--red);
+      padding: 11px;
+      box-shadow: 0 8px 20px rgba(227, 27, 35, .12);
+    }
+
+    .plan-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .plan {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color .16s ease, box-shadow .16s ease;
+    }
+
+    .plan.selected {
+      border: 2px solid var(--red);
+      padding: 15px;
+      box-shadow: 0 8px 20px rgba(227, 27, 35, .1);
+    }
+
+    .plan strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .plan span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .plan b {
+      color: var(--red);
+      white-space: nowrap;
+    }
+
+    .plan-price {
+      display: grid;
+      gap: 4px;
+      justify-items: end;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .plan-price strong {
+      color: var(--red);
+      font-size: 18px;
+    }
+
+    .plan-price span {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .notice {
+      display: grid;
+      gap: 10px;
+      padding: 18px;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: #536173;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .buy-panel {
+      position: sticky;
+      bottom: 0;
+      z-index: 5;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(10px);
+    }
+
+    .buy-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 18px;
+      align-items: center;
+      min-height: 82px;
+    }
+
+    .buy-row small {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .buy-row strong {
+      font-size: 20px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .button.primary {
+      border-color: var(--red);
+      background: var(--red);
+      color: #fff;
+    }
+
+    .button.primary:hover {
+      background: var(--red-dark);
+    }
+
+    .tabs {
+      margin-top: 48px;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .tab-nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tab-nav a {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      min-height: 58px;
+      font-weight: 900;
+      border-right: 1px solid var(--line);
+    }
+
+    .tab-nav a:first-child {
+      color: var(--red);
+      border-bottom: 3px solid var(--red);
+    }
+
+    .info-block {
+      padding: 36px 0 70px;
+    }
+
+    .info-card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      margin-bottom: 14px;
+      line-height: 1.7;
+      color: #475467;
+    }
+
+    footer {
+      padding: 36px 0 46px;
+      background: #111827;
+      color: #cfd8e6;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    footer strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    @media (max-width: 920px) {
+      .inner { width: min(100% - 28px, 1180px); }
+      .utility { display: none; }
+      .product, .buy-row { grid-template-columns: 1fr; }
+      .gallery { position: static; }
+      .visual-box { min-height: 360px; }
+      .option-grid { grid-template-columns: 1fr; }
+      .variant-grid { grid-template-columns: 1fr; }
+      .buy-row { padding: 14px 0; gap: 10px; }
+      .button { width: 100%; }
+    }
+
+    @media (max-width: 520px) {
+      .summary h1 { font-size: 28px; }
+      .plan { grid-template-columns: 1fr; }
+      .tab-nav { display: grid; grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <nav class="inner nav" aria-label="주요 메뉴">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">GP</span>
+        <span>곰방폰 다이렉트</span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="inner">
+    <section class="product">
+      <aside class="gallery">
+        <div class="visual-box">
+          <img class="product-image" id="productImage" src="https://images.samsung.com/is/image/samsung/p6pim/us/s2602/gallery/us-galaxy-s26-s942-sm-s942ulbeatt-550994287?$PD_GALLERY_PNG$" alt="Galaxy S26 제품 이미지">
+        </div>
+        <div class="review">
+          <strong>확인 안내</strong><br>
+          단말기 세부기종, 색상, 가입 유형, 약정 방식을 확인하실 수 있습니다. 최종 조건은 통신사 공식 기준과 개통 가능 여부 확인 후 안내됩니다.
+        </div>
+      </aside>
+
+      <section class="summary">
+        <div class="meta">
+          <span class="chip">5G/LTE</span>
+          <span class="chip">온라인 안내</span>
+          <span class="chip">공식 기준 안내</span>
+        </div>
+        <h1 id="productName">Galaxy S26</h1>
+        <div class="price-box">
+          <div class="price-row">
+            <span>출고가</span>
+            <strong id="factoryPrice">상담 시 공식 기준 안내</strong>
+          </div>
+          <div class="price-row">
+            <span>할인 방식</span>
+            <span>공시지원금 또는 선택약정 중 선택</span>
+          </div>
+          <div class="price-row">
+            <span>수령 안내</span>
+            <span>개통 가능 여부 확인 후 배송 또는 방문 수령 절차를 안내합니다.</span>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>세부기종</h2>
+          <div class="variant-grid" id="variantOptions" data-option-group="variant">
+            <div class="option selected" data-value="S26_256">S26_256 <span>대표 옵션</span></div>
+            <div class="option" data-value="S26_512">S26_512 <span>용량 선택</span></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>색상</h2>
+          <div class="option-grid" id="colorOptions" data-option-group="color">
+            <div class="option selected" data-value="블랙">블랙 <span>기본 선택</span></div>
+            <div class="option" data-value="스카이블루">스카이블루 <span>재고 확인 필요</span></div>
+            <div class="option" data-value="실버">실버 <span>재고 확인 필요</span></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>가입 유형</h2>
+          <div class="option-grid" data-option-group="joinType">
+            <div class="option selected" data-value="기기변경">기기변경 <span>현재 번호 그대로</span></div>
+            <div class="option" data-value="번호이동">번호이동 <span>통신사 이동</span></div>
+            <div class="option" data-value="신규가입">신규가입 <span>새 번호 개통</span></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>할인 방법</h2>
+          <div class="option-grid" data-option-group="discount">
+            <div class="option selected" data-value="공시지원금">공시지원금 <span>통신사 공식 기준</span></div>
+            <div class="option" data-value="선택약정">선택약정 <span>월 이용요금 할인</span></div>
+            <div class="option" data-value="상담 후 선택">상담 후 선택 <span>조건 비교 안내</span></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>요금제 선택</h2>
+          <div class="plan-list" id="planOptions" data-option-group="plan">
+            <div class="plan selected" data-value="5GX 프리미엄">
+              <div>
+                <strong>5GX 프리미엄</strong>
+                <span>SKT 5G 프리미엄 요금제입니다. 데이터 및 부가혜택은 공식 기준으로 확인됩니다.</span>
+              </div>
+              <div class="plan-price">
+                <strong>월 109,000원</strong>
+                <span>선택약정 반영 시 81,750원</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>유의사항</h2>
+          <div class="notice">
+            <span>단말기 출고가, 공시지원금, 선택약정 할인, 요금제는 이동통신사의 공식 정책에 따라 변경될 수 있습니다.</span>
+            <span>최종 개통 가능 여부는 본인확인 및 통신사 심사 결과에 따라 달라질 수 있습니다.</span>
+            <span>본 화면은 단말기 및 가입 조건 확인을 위한 안내 페이지이며, 최종 조건은 상담 과정에서 공식 기준으로 확인됩니다.</span>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="tabs" id="details">
+      <div class="tab-nav">
+        <a href="#details">상품 정보</a>
+        <a href="#details">가입 안내</a>
+        <a href="#details">배송/개통</a>
+        <a href="#details">유의사항</a>
+      </div>
+      <div class="info-block">
+        <div class="info-card">
+          <strong>상품 정보</strong><br>
+          모델별 색상, 용량, 구성품 및 재고는 제조사와 통신사 정책에 따라 달라질 수 있습니다. 자세한 정보는 상담 시점의 공식 기준으로 안내됩니다.
+        </div>
+        <div class="info-card">
+          <strong>배송 및 개통 안내</strong><br>
+          상담 접수 후 본인확인, 가입 조건 확인, 개통 가능 여부 확인을 거쳐 배송 또는 방문 수령 절차를 안내합니다.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="buy-panel">
+    <div class="inner buy-row">
+      <div>
+        <small>선택 상품</small>
+        <strong id="bottomName">Galaxy S26 · S26_256</strong>
+      </div>
+      <a class="button" href="index.html#products">다른 휴대폰 보기</a>
+      <a class="button primary" id="nextStepButton" href="apply.html">선택 내용 확인</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="inner">
+      <strong>곰방폰 다이렉트</strong>
+      상호: 곰방 · 대표자: 정민교 · 사업자등록번호: 684-03-03733<br>
+      주소: 경기도 하남시 미사강변한강로 165, BA동 9층 4호(망월동, 현대클러스터 한강미사3차)<br>
+      고객센터: 010-4965-4949 · 이메일: ydragon7977@gmail.com
+    </div>
+  </footer>
+
+  <script>
+    const products = {
+      galaxy: {
+        name: "Galaxy S26",
+        price: "출고가 공식 기준 확인",
+        toneA: "#dfeaff",
+        toneB: "#f7dfb8",
+        image: "https://images.samsung.com/is/image/samsung/p6pim/us/s2602/gallery/us-galaxy-s26-s942-sm-s942ulbeatt-550994287?$PD_GALLERY_PNG$",
+        images: {
+          base: "https://images.samsung.com/is/image/samsung/p6pim/us/s2602/gallery/us-galaxy-s26-s942-sm-s942ulbeatt-550994287?$PD_GALLERY_PNG$",
+          plus: "https://images.samsung.com/is/image/samsung/p6pim/us/s2602/gallery/us-galaxy-s26-s947-sm-s947ulbaatt-550993785?$PD_GALLERY_PNG$",
+          ultra: "https://images.samsung.com/is/image/samsung/p6pim/us/s2602/gallery/us-galaxy-s26-ultra-s948-sm-s948ulbaatt-550992840?$PD_GALLERY_PNG$"
+        },
+        variants: [
+          ["S26_256", "기본형 256GB"],
+          ["S26_512", "기본형 512GB"],
+          ["S26PLUS_256", "플러스 256GB"],
+          ["S26PLUS_512", "플러스 512GB"],
+          ["S26ULTRA_256", "울트라 256GB"],
+          ["S26ULTRA_512", "울트라 512GB"]
+        ]
+      },
+      iphone: {
+        name: "iPhone17 시리즈",
+        price: "출고가 공식 기준 확인",
+        toneA: "#f2f2f4",
+        toneB: "#d8e8e2",
+        image: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-compare-iphone-17-202509?.v=M0dlUVBobHVpY1h1dmlaR3RZekpENGh0eTVTNkN2NWpWZVAwbzMwQlBCTkxxZU5scXpES1hnUm96ckN1R2pZN215d1FhSDJ0bkR0ZGZtUjZJNmFveFo2eWNJSlJFRDM1UWQ2eUozZ1l5ZDA&fmt=png-alpha&hei=512&wid=400",
+        images: {
+          base: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-compare-iphone-17-202509?.v=M0dlUVBobHVpY1h1dmlaR3RZekpENGh0eTVTNkN2NWpWZVAwbzMwQlBCTkxxZU5scXpES1hnUm96ckN1R2pZN215d1FhSDJ0bkR0ZGZtUjZJNmFveFo2eWNJSlJFRDM1UWQ2eUozZ1l5ZDA&fmt=png-alpha&hei=512&wid=400",
+          pro: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-compare-iphone-17-pro-202509?wid=400&hei=512&fmt=png-alpha&.v=M0dlUVBobHVpY1h1dmlaR3RZekpEMi9sbCsxVVJmYjNiS29STjQrZEV5NnNlL1VpWDFHcHBMQXVUWWdWdkZZNGJPbDJJWDFrVGJEYlIxTitTcHhVWldNTk4rSDJkMy8vL20va2hrM1NheXZ4VldteDRHenNWeThpV3EzUWVVd2o",
+          proMax: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-17-pro-max-finish-select-deepblue-202509?wid=940&hei=1112&fmt=png-alpha&.v=UGxRWEJPajdEMXBieGEzZUtQamtWb0Q2cmRnWCtSNmVDd2t4cWxWSnIvN3IxVjhSRGZLSWZ2UUYzU1IyaE5QNkV3S0grNWRDVTNuaVhuc2dPbTQ4Q0V1RGVGY05iMGVCVXhlTE1BQUZjMDErV3Z5VHo3S0pJcVkvRFUydFNUMmE"
+        },
+        variants: [
+          ["IPHONE 17 256", "기본형 256GB"],
+          ["IPHONE 17 512", "기본형 512GB"],
+          ["IPHONE 17 PRO 256", "Pro 256GB"],
+          ["IPHONE 17 PRO 512", "Pro 512GB"],
+          ["IPHONE 17 PRO MAX 256", "Pro Max 256GB"],
+          ["IPHONE 17 PRO MAX 512", "Pro Max 512GB"]
+        ]
+      },
+      value: {
+        name: "A175",
+        price: "모델별 출고가 공식 기준 확인",
+        toneA: "#f4f0ff",
+        toneB: "#dfe8f6",
+        image: "https://images.samsung.com/kdp/goods/2026/01/09/c8d67761-8f3b-469f-a2cb-c12f9f4d0f2c.png",
+        images: {
+          base: "https://images.samsung.com/kdp/goods/2026/01/09/c8d67761-8f3b-469f-a2cb-c12f9f4d0f2c.png"
+        },
+        variants: [
+          ["A175", "단일 모델"]
+        ]
+      }
+    };
+
+    const key = new URLSearchParams(location.search).get("model") || "galaxy";
+    const selected = products[key] || products.galaxy;
+    const planGroups = {
+      fiveG: [
+        {
+          name: "5GX 프리미엄(T 우주)",
+          data: "무제한 · 테더링/공유 100GB",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "109,000원",
+          contract: "81,750원"
+        },
+        {
+          name: "5GX 플래티넘(T 우주)",
+          data: "무제한 · 테더링/공유 120GB",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "125,000원",
+          contract: "93,750원"
+        },
+        {
+          name: "5GX 프라임플러스(T 우주)",
+          data: "무제한 · 테더링/공유 80GB",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "99,000원",
+          contract: "74,250원"
+        },
+        {
+          name: "5GX 프라임",
+          data: "무제한",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "89,000원",
+          contract: "66,750원"
+        },
+        {
+          name: "5GX 레귤러플러스",
+          data: "250GB + 최대 5Mbps",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "79,000원",
+          contract: "59,250원"
+        },
+        {
+          name: "5GX 레귤러",
+          data: "110GB + 최대 5Mbps",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "69,000원",
+          contract: "51,750원"
+        },
+        {
+          name: "5GX 슬림",
+          data: "15GB + 최대 1Mbps",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "55,000원",
+          contract: "41,250원"
+        }
+      ],
+      lte: [
+        {
+          name: "T플랜 맥스",
+          data: "완전 무제한",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "100,000원",
+          contract: "75,000원"
+        },
+        {
+          name: "T플랜 스페셜",
+          data: "150GB + 최대 5Mbps",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "79,000원",
+          contract: "59,250원"
+        },
+        {
+          name: "T플랜 에센스",
+          data: "100GB + 최대 5Mbps",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "69,000원",
+          contract: "51,750원"
+        },
+        {
+          name: "T플랜 안심4G",
+          data: "4GB + 최대 1Mbps",
+          voice: "집/이동전화 무제한, 영상/부가통화 300분, 문자 기본 제공",
+          price: "50,000원",
+          contract: "37,500원"
+        },
+        {
+          name: "T플랜 세이브",
+          data: "1.5GB",
+          voice: "집/이동전화 무제한, 영상/부가통화 100분, 문자 기본 제공",
+          price: "33,000원",
+          contract: "24,750원"
+        }
+      ]
+    };
+    const state = {
+      variant: selected.variants[0][0],
+      color: "블랙",
+      joinType: "기기변경",
+      discount: "공시지원금",
+      plan: key === "value" ? "T플랜 맥스" : "5GX 프리미엄(T 우주)"
+    };
+
+    function refreshBottomSummary() {
+      document.getElementById("bottomName").textContent = `${selected.name} · ${state.variant}`;
+    }
+
+    function refreshNextStepLink() {
+      const params = new URLSearchParams({
+        model: selected.name,
+        variant: state.variant,
+        color: state.color,
+        joinType: state.joinType,
+        discount: state.discount,
+        plan: state.plan
+      });
+      document.getElementById("nextStepButton").href = `apply.html?${params.toString()}`;
+    }
+
+    function imageForVariant(variantName) {
+      if (variantName.includes("S26ULTRA")) return selected.images.ultra || selected.image;
+      if (variantName.includes("S26PLUS")) return selected.images.plus || selected.image;
+      if (variantName.includes("PRO MAX")) return selected.images.proMax || selected.image;
+      if (variantName.includes("PRO")) return selected.images.pro || selected.image;
+      return selected.images.base || selected.image;
+    }
+
+    function colorsForVariant(variantName) {
+      if (variantName.includes("S26ULTRA")) {
+        return [
+          ["티타늄 블랙", "Ultra 대표 색상"],
+          ["티타늄 그레이", "재고 확인 필요"],
+          ["티타늄 실버블루", "재고 확인 필요"]
+        ];
+      }
+
+      if (variantName.includes("S26PLUS")) {
+        return [
+          ["블랙", "Plus 대표 색상"],
+          ["스카이블루", "재고 확인 필요"],
+          ["실버", "재고 확인 필요"]
+        ];
+      }
+
+      if (variantName.includes("S26")) {
+        return [
+          ["블랙", "기본 선택"],
+          ["스카이블루", "재고 확인 필요"],
+          ["실버", "재고 확인 필요"]
+        ];
+      }
+
+      if (variantName.includes("PRO MAX") || variantName.includes("PRO")) {
+        return [
+          ["실버", "Pro 대표 색상"],
+          ["코스믹 오렌지", "재고 확인 필요"],
+          ["딥 블루", "재고 확인 필요"]
+        ];
+      }
+
+      if (variantName.includes("IPHONE 17")) {
+        return [
+          ["블랙", "기본 선택"],
+          ["화이트", "재고 확인 필요"],
+          ["미스트 블루", "재고 확인 필요"],
+          ["세이지", "재고 확인 필요"],
+          ["라벤더", "재고 확인 필요"]
+        ];
+      }
+
+      return [
+        ["라이트 블루", "대표 색상"],
+        ["블랙", "재고 확인 필요"],
+        ["그레이", "재고 확인 필요"]
+      ];
+    }
+
+    function renderColorOptions() {
+      const colors = colorsForVariant(state.variant);
+      state.color = colors[0][0];
+      document.getElementById("colorOptions").innerHTML = colors
+        .map(([name, note], index) => `<div class="option${index === 0 ? " selected" : ""}" data-value="${name}">${name}<span>${note}</span></div>`)
+        .join("");
+    }
+
+    function renderPlanOptions() {
+      const plans = key === "value" ? planGroups.lte : planGroups.fiveG;
+      state.plan = plans[0].name;
+      document.getElementById("planOptions").innerHTML = plans
+        .map((plan, index) => `
+          <div class="plan${index === 0 ? " selected" : ""}" data-value="${plan.name}">
+            <div>
+              <strong>${plan.name}</strong>
+              <span>${plan.data}</span>
+              <span>${plan.voice}</span>
+            </div>
+            <div class="plan-price">
+              <strong>월 ${plan.price}</strong>
+              <span>선택약정 반영 시 ${plan.contract}</span>
+            </div>
+          </div>
+        `)
+        .join("");
+    }
+
+    function refreshProductImage() {
+      const productImage = document.getElementById("productImage");
+      productImage.src = imageForVariant(state.variant);
+      productImage.alt = `${state.variant} 제품 이미지`;
+    }
+
+    function bindChoiceGroups() {
+      document.querySelectorAll("[data-option-group]").forEach((group) => {
+        group.addEventListener("click", (event) => {
+          const item = event.target.closest(".option, .plan");
+          if (!item || !group.contains(item)) return;
+          group.querySelectorAll(".option, .plan").forEach((node) => node.classList.remove("selected"));
+          item.classList.add("selected");
+          state[group.dataset.optionGroup] = item.dataset.value || item.textContent.trim();
+          refreshBottomSummary();
+          refreshNextStepLink();
+          if (group.dataset.optionGroup === "variant") {
+            renderColorOptions();
+            refreshProductImage();
+            refreshNextStepLink();
+          }
+        });
+      });
+    }
+
+    document.getElementById("productName").textContent = selected.name;
+    document.getElementById("factoryPrice").textContent = selected.price;
+    document.getElementById("variantOptions").innerHTML = selected.variants
+      .map(([name, note], index) => `<div class="option${index === 0 ? " selected" : ""}" data-value="${name}">${name}<span>${note}</span></div>`)
+      .join("");
+    renderColorOptions();
+    renderPlanOptions();
+    refreshBottomSummary();
+    refreshNextStepLink();
+    refreshProductImage();
+    bindChoiceGroups();
+    document.title = `곰방폰 | ${selected.name} 구매 정보`;
+  </script>
+</body>
+</html>
