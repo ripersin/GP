@@ -398,16 +398,47 @@
       font-size: 16px;
     }
 
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .footer-cert-wrap {
+      display: grid;
+      justify-items: end;
+      gap: 12px;
+      text-align: right;
+    }
+
+    .footer-cert-wrap p {
+      margin: 0;
+      color: #c0c8d4;
+    }
+
+    .precon-cert {
+      display: inline-block;
+    }
+
+    .precon-cert img {
+      display: block;
+      width: min(360px, 100%);
+      height: auto;
+      max-height: 140px;
+    }
+
     @media (max-width: 920px) {
       .inner { width: min(100% - 28px, 1180px); }
       .utility { display: none; }
-      .product, .buy-row { grid-template-columns: 1fr; }
+      .product, .buy-row, .footer-grid { grid-template-columns: 1fr; }
       .gallery { position: static; }
       .visual-box { min-height: 360px; }
       .option-grid { grid-template-columns: 1fr; }
       .variant-grid { grid-template-columns: 1fr; }
       .buy-row { padding: 14px 0; gap: 10px; }
       .button { width: 100%; }
+      .footer-cert-wrap { justify-items: start; text-align: left; }
     }
 
     @media (max-width: 520px) {
@@ -555,11 +586,19 @@
   </div>
 
   <footer>
-    <div class="inner">
-      <strong>곰방폰 다이렉트</strong>
-      상호: 곰방 · 대표자: 정민교 · 사업자등록번호: 684-03-03733 · 통신판매업 신고 번호 : 제 2026-경기하남-1110호<br>
-      주소: 경기도 하남시 미사강변한강로 165, BA동 9층 4호(망월동, 현대클러스터 한강미사3차)<br>
-      고객센터: 010-4965-4949 · 이메일: ydragon7977@gmail.com
+    <div class="inner footer-grid">
+      <div>
+        <strong>곰방폰 다이렉트</strong>
+        상호: 곰방 · 대표자: 정민교 · 사업자등록번호: 684-03-03733 · 통신판매업 신고 번호 : 제 2026-경기하남-1110호<br>
+        주소: 경기도 하남시 미사강변한강로 165, BA동 9층 4호(망월동, 현대클러스터 한강미사3차)<br>
+        고객센터: 010-4965-4949 · 이메일: ydragon7977@gmail.com
+      </div>
+      <div class="footer-cert-wrap">
+        <p>Copyright 2026 Gombang Phone. All rights reserved.</p>
+        <a class="precon-cert" href="https://www.ictmarket.or.kr:8443/precon/pop_CertIcon.do?PRECON_REQ_ID=PRE0000201792" target="_blank" rel="noopener">
+          <img style="cursor:pointer;" src="https://www.ictmarket.or.kr:8443/getCertIcon.do?cert_icon=KP26061213797U001" alt="사전승낙제 인증마크">
+        </a>
+      </div>
     </div>
   </footer>
 
