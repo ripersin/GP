@@ -632,6 +632,18 @@
       line-height: 1.7;
     }
 
+    .footer-cert-wrap {
+      display: grid;
+      justify-items: end;
+      gap: 12px;
+      text-align: right;
+    }
+
+    .precon-cert img {
+      max-width: 100%;
+      height: auto;
+    }
+
     @media (max-width: 900px) {
       .topbar .inner,
       .nav,
@@ -653,6 +665,11 @@
       .notice-wrap,
       .footer-grid {
         grid-template-columns: 1fr;
+      }
+
+      .footer-cert-wrap {
+        justify-items: start;
+        text-align: left;
       }
 
       .hero .section-inner {
@@ -988,7 +1005,12 @@
           고객센터: 010-4965-4949 · 이메일: ydragon7977@gmail.com
         </p>
       </div>
-      <p>Copyright 2026 Gombang Phone. All rights reserved.</p>
+      <div class="footer-cert-wrap">
+        <p>Copyright 2026 Gombang Phone. All rights reserved.</p>
+        <a class="precon-cert" href="https://www.ictmarket.or.kr:8443/precon/pop_CertIcon.do?PRECON_REQ_ID=PRE0000201792" target="_blank" rel="noopener">
+          <img style="cursor:pointer;" src="https://www.ictmarket.or.kr:8443/getCertIcon.do?cert_icon=KP26061213797U001" alt="사전승낙제 인증마크">
+        </a>
+      </div>
     </div>
   </footer>
 </body>
